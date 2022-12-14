@@ -182,24 +182,6 @@ class load_ahp():
     
     ################################################################################
     
-    # Function: Load U-NSGA-III Parameters
-    def run_unsga3(self, references, mutation_rate, list_of_functions, generations, mu, eta, k):
-        self.size = references
-        self.m_r  = mutation_rate
-        self.gen  = generations
-        self.mu   = mu
-        self.eta  = eta
-        self.k    = k
-        self.lof  = []
-        self.qidx = [item for item in list_of_functions]
-        for i in range(0, len(list_of_functions)):
-            if   (list_of_functions[i] == 'f0' and self.f0 not in self.lof):
-                self.lof.append(self.f0)
-            elif (list_of_functions[i] == 'f1' and self.f1 not in self.lof):
-                self.lof.append(self.f1)
-        self.run_m()
-        return
-
     # Function: Load GA Parameters
     def run_ga(self, population_size, mutation_rate, list_of_functions, generations, mu, eta, elite, verbose):
         self.size = population_size

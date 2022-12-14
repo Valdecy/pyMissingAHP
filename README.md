@@ -38,8 +38,8 @@ pip install pyMissingAHP
 
 - Example 1a - (AHP; f0; discrete): ([ Colab Demo ](https://colab.research.google.com/drive/11FoDq0i5WGY7IH1Kxf7FBboWGAk6Mw9A?usp=sharing))
 - Example 1b - (AHP; f0; continuous): ([ Colab Demo ](https://colab.research.google.com/drive/1Jebj8Dqzm96DAmabF_i1RrS-d_-Au_YI?usp=sharing))
-- Example 1c - (AHP; f1; discrete; Diferent Rank Positions): ([ Colab Demo ](https://colab.research.google.com/drive/1n9hcYCW85bK5qU_LpNyZcaTalSnvT-de?usp=sharing))
-- Example 1d - (AHP; f1; continuous; Diferent Rank Positions): ([ Colab Demo ](https://colab.research.google.com/drive/1kB3nJl4jlSWUoviKZXblqMgIJk8iz_VA?usp=sharing))
+- Example 1c - (AHP; f1; discrete; Different Rank Positions): ([ Colab Demo ](https://colab.research.google.com/drive/1n9hcYCW85bK5qU_LpNyZcaTalSnvT-de?usp=sharing))
+- Example 1d - (AHP; f1; continuous; Different Rank Positions): ([ Colab Demo ](https://colab.research.google.com/drive/1kB3nJl4jlSWUoviKZXblqMgIJk8iz_VA?usp=sharing))
 - Example 1e - (AHP; f1; discrete; Same Rank Positions): ([ Colab Demo ](https://colab.research.google.com/drive/1D6ae7wgcZg-yNFr_gj5pmxEriL-oG09X?usp=sharing))
 - Example 1f - (AHP; f1; continuous; Same Rank Positions): ([ Colab Demo ](https://colab.research.google.com/drive/1-wMDIPN4ZRgWX3JpyltUjpI8xiR-BKlh?usp=sharing))
 - Example 1g - (AHP; f1; discrete; Partial Rank Positions): ([ Colab Demo ](https://colab.research.google.com/drive/1LScLnOoSFI4FMR5qMRuyykwIcnj_S2lU?usp=sharing))

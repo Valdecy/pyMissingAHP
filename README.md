@@ -36,6 +36,7 @@ pip install pyMissingAHP
 
 2. Try it in **Colab**:
 
+Single Objective AHP: 
 - Example 1a - (AHP; f0; Discrete): ([ Colab Demo ](https://colab.research.google.com/drive/11FoDq0i5WGY7IH1Kxf7FBboWGAk6Mw9A?usp=sharing))
 - Example 1b - (AHP; f0; Continuous): ([ Colab Demo ](https://colab.research.google.com/drive/1Jebj8Dqzm96DAmabF_i1RrS-d_-Au_YI?usp=sharing))
 - Example 1c - (AHP; f1; Discrete; Different Rank Positions): ([ Colab Demo ](https://colab.research.google.com/drive/1n9hcYCW85bK5qU_LpNyZcaTalSnvT-de?usp=sharing))
@@ -46,14 +47,17 @@ pip install pyMissingAHP
 - Example 1h - (AHP; f1; Continuous; Partial Rank Positions): ([ Colab Demo ](https://colab.research.google.com/drive/1QjqU3uo0pnW4CuyTTmnaEyElpRdfDiE6?usp=sharing))
 - Example 1  -  Brute Force - (AHP; Discrete): ([ Colab Demo ](https://colab.research.google.com/drive/1y1tycNbDFxFYiSb3_BrHmP2dUnOOHIqG?usp=sharing))
 
+Single Objective Fuzzy AHP: 
 - Example 2a - (Fuzzy AHP; f0; Discrete): ([ Colab Demo ](https://colab.research.google.com/drive/1aBEP7lYbSvpHJxJGxYrg4QS4na8Jk49f?usp=sharing))
 - Example 2b - (Fuzzy AHP; f1; Discrete): ([ Colab Demo ](https://colab.research.google.com/drive/18aeD00Q2jmc_P6QSHGjuEKDUKeEoIiq4?usp=sharing))
 - Example 2c - (Fuzzy AHP; f0; Discrete; Custom Fuzzy Scale): ([ Colab Demo ](https://colab.research.google.com/drive/1vPBq4CzNXS503W-ANdW8-WYacdDgSOVr?usp=sharing))
 - Example 2d - (Fuzzy AHP; f1; Discrete; Custom Fuzzy Scale): ([ Colab Demo ](https://colab.research.google.com/drive/1sfpmhM7U3xvSKfGlbRlVNKhSszN4vAA4?usp=sharing))
 - Example 2  -  Brute Force - (Fuzzy AHP; Discrete): ([ Colab Demo ](https://colab.research.google.com/drive/1FmhWnZw3SA7sCGxLYLK6-ISsrYX9kEZU?usp=sharing))
 
+Multiobjective AHP:
 - Example 3a - (AHP; f0 & f1; Discrete): ([ Colab Demo ](https://colab.research.google.com/drive/1kDo5Ur0_xK2LzGmDOPd0kLjwQwuOKezE?usp=sharing))
 - Example 3b - (AHP; f0 & f1; Continuous): ([ Colab Demo ](https://colab.research.google.com/drive/1IwRxyxHXMEAAdDPSTr6yy8otEkv7l3kW?usp=sharing))
 
+Multiobjective Fuzzy AHP:
 - Example 4a - (Fuzzy AHP; f0 & f1; Discrete): ([ Colab Demo ](https://colab.research.google.com/drive/1_zRxMOmGgoEoiddF94383OHYq_ztF0nT?usp=sharing))
 - Example 4b - (Fuzzy AHP; f0 & f1; Discrete; Custom Fuzzy Scale): ([ Colab Demo ](https://colab.research.google.com/drive/1Jn6KElsYwN6W9IXR4XbBDy2AW6JYoh9t?usp=sharing))

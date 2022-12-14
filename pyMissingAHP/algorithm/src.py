@@ -104,6 +104,8 @@ class load_ahp():
           self.saaty_strg.append(srt)
       elif (self.f_flag == True and len(custom_fuzzy_scale) > 0):
         self.saaty_scale = [item for item in custom_fuzzy_scale]
+        if (( -1,  -1,  -1) not in self.saaty_scale):
+            self.saaty_scale.insert(0, ( -1,  -1,  -1))
         self.saaty_strg  = []
         for fuzzy_number in self.saaty_scale:
           srt = '('

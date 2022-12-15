@@ -245,10 +245,10 @@ class load_ahp():
     # Function: All Possible Discrete Combinations
     def brute_force(self, view_report = False, consistent_only = True):
         print('Considering Only Discrete Values')
-        rang_elements = []
-        bf_solutions  = []
-        report_lst    = []
-        count         = 0
+        rang_elements      = []
+        self.bf_solutions  = []
+        report_lst         = []
+        count              = 0
         for pair in self.miss_pos:
             i, j    = pair
             idx_min = self.saaty_scale.index(self.dataset_min[i,j])
@@ -275,7 +275,7 @@ class load_ahp():
             if (consistent_only == True):
                 if (rc_ <= 0.1):
                     order_    = self.rank_descending(w_)
-                    bf_solutions.append(np.array(dataset_, copy = True))
+                    self.bf_solutions.append(np.array(dataset_, copy = True))
                     flat_list = [w_.tolist(), order_.tolist(), [rc_]]
                     flat_list = [item for sublist in flat_list for item in sublist]
                     report_lst.append(flat_list)
@@ -284,7 +284,7 @@ class load_ahp():
                         rc_bf = rc_
             elif (consistent_only == False):
                  order_     = self.rank_descending(w_)
-                 bf_solutions.append(np.array(dataset_, copy = True))
+                 self.bf_solutions.append(np.array(dataset_, copy = True))
                  flat_list  = [w_.tolist(), order_.tolist(), [rc_]]
                  flat_list  = [item for sublist in flat_list for item in sublist]
                  report_lst.append(flat_list)
@@ -304,7 +304,7 @@ class load_ahp():
         if (view_report == True):
             print('')
             print(self.report_df)
-        return bf_solutions, self.report_df
+        return self.bf_solutions, self.report_df
     
     ################################################################################
     
@@ -345,12 +345,49 @@ class load_ahp():
         return
 
     # Function: Scatter Plot 
-    def plot_scatter(self, view = 'browser'):
-        if (view == 'browser' ):
+    def plot_scatter(self, view = 'browser', pf = False):
+        def pareto_front_points(pts, pf_min = True):
+            def pareto_front(pts, pf_min):
+                pf = np.zeros(pts.shape[0], dtype = np.bool_)
+                for i in range(0, pts.shape[0]):
+                    cost = pts[i, :]
+                    if (pf_min == True):
+                        g_cost = np.logical_not(np.any(pts > cost, axis = 1))
+                        b_cost = np.any(pts < cost, axis = 1)
+                    else:
+                        g_cost = np.logical_not(np.any(pts < cost, axis = 1))
+                        b_cost = np.any(pts > cost, axis = 1)
+                    dominated = np.logical_and(g_cost, b_cost)
+                    if  (np.any(pf) == True):
+                        if (np.any(np.all(pts[pf] == cost, axis = 1)) == True):
+                            continue
+                    if not (np.any(dominated[:i]) == True or np.any(dominated[i + 1 :]) == True):
+                        pf[i] = True
+                return pf
+            idx     = np.argsort(((pts - pts.mean(axis = 0))/(pts.std(axis = 0) + 1e-7)).sum(axis = 1))
+            pts     = pts[idx]
+            pf      = pareto_front(pts, pf_min)
+            pf[idx] = pf.copy()
+            return pf
+        if (view == 'browser'):
             pio.renderers.default = 'browser'
         data     = []
         inc_list = [ 'Index: '+str(item)+'<br>'+'Solution: Inconsistent' for item in list(self.ind_incon.index)] 
         con_list = [ 'Index: '+str(item)+'<br>'+'Solution: Consistent'   for item in list(self.ind_con.index  )] 
+        if (pf == True):
+            pts           = self.indicators.iloc[:,:-1]
+            pts['f0(MI)'] = pts['f0(MI)'].astype(float)
+            pts['f1(KT)'] = pts['f1(KT)'].astype(float)
+            pts.drop_duplicates()
+            pf            = pareto_front_points(pts.values, pf_min = True)
+            front         = pts.iloc[pf, :]
+            x, y          = zip(*sorted(zip(front.iloc[:,0], front.iloc[:,1])))
+            f_trace       = go.Scatter(x    = x, 
+                                       y    = y,
+                                       mode = 'lines',
+                                       line = dict(color = 'black', width = 1)
+                                       )
+            data.append(f_trace)
         if (len(con_list) > 0):
           s_trace = go.Scatter(
                               x         = self.ind_con.iloc[:, 0], # ~self.ind_con.index.isin(self.rank_idx)
@@ -512,10 +549,30 @@ class load_ahp():
         if (math.isnan(kendall_tau)):
             kendall_tau = -1
         return -kendall_tau
-    
-    # Function: Bi-Objective Function 1 - Consistency Ratio (MI) & Kendall Tau (KT)
+
+    # Function: Objective Function 1 - Kendall Tau (KT) Solutions from Brute Force  
+    def f1_bf(self, idx, custom_rank):
+        if (self.f_flag == False):
+          w1, _ = ahp_method(self.bf_solutions[idx], self.wd)
+        else:
+          w1, _ = fuzzy_ahp_method(self.bf_solutions[idx])
+        w1             = self.rank_descending(w1)
+        w2             = custom_rank
+        for i in range(0, w1.shape[0]):
+            if (i <= len(w2)):
+                if (w2[i] == -1):
+                    w2.append(w1[i])
+            else:
+                w2.append(w1[i])
+        w2             = np.array(w2)
+        kendall_tau, _ = stats.kendalltau(w1, w2)
+        if (math.isnan(kendall_tau)):
+            kendall_tau = -1
+        return kendall_tau    
+
+    # Function: MultiObjective Function - Consistency Ratio (MI) & Kendall Tau (KT)
     def f0_f1(self, variables):
-        result = self.alpha*self.f0(variables) + (1 - self.alpha)*self.f1(variables)/10
+        result = self.alpha*self.f0(variables)/1 + (1 - self.alpha)*self.f1(variables)/10
         return result
         
     ################################################################################
@@ -597,6 +654,61 @@ class load_ahp():
         print('Total Number of Unique Consistent Solutions: ', self.ind_con.shape[0])
         print(self.indicators)
         return self.indicators
+
+    # Function: Get Solutions from Brute Force
+    def get_solutions_bf(self, custom_rank = []):
+        def pareto_front_points(pts, pf_min = True):
+            def pareto_front(pts, pf_min):
+                pf = np.zeros(pts.shape[0], dtype = np.bool_)
+                for i in range(0, pts.shape[0]):
+                    cost = pts[i, :]
+                    if (pf_min == True):
+                        g_cost = np.logical_not(np.any(pts > cost, axis = 1))
+                        b_cost = np.any(pts < cost, axis = 1)
+                    else:
+                        g_cost = np.logical_not(np.any(pts < cost, axis = 1))
+                        b_cost = np.any(pts > cost, axis = 1)
+                    dominated = np.logical_and(g_cost, b_cost)
+                    if  (np.any(pf) == True):
+                        if (np.any(np.all(pts[pf] == cost, axis = 1)) == True):
+                            continue
+                    if not (np.any(dominated[:i]) == True or np.any(dominated[i + 1 :]) == True):
+                        pf[i] = True
+                return pf
+            idx     = np.argsort(((pts - pts.mean(axis = 0))/(pts.std(axis = 0) + 1e-7)).sum(axis = 1))
+            pts     = pts[idx]
+            pf      = pareto_front(pts, pf_min)
+            pf[idx] = pf.copy()
+            return pf
+        self.indicators = []
+        category        = 'inconsistent'
+        count_con       = 0
+        count_inc       = 0
+        for idx in range(0, len(self.report_df)):
+          f0_ = self.report_df.iloc[idx,-1]
+          f1_ = self.f1_bf(idx, custom_rank)
+          if (f0_ > 0.1):
+            category  = 'inconsistent'
+            count_inc = count_inc + 1
+          else:
+            category  = 'consistent'
+            count_con = count_con + 1
+          self.indicators.append((f'{f0_:.4f}', f1_, category))
+        self.indicators = pd.DataFrame(self.indicators, columns = ['f0(MI)', 'f1(KT)', 'Consistency'])
+        self.ind_con    = self.indicators[self.indicators['Consistency'] =='consistent']
+        self.ind_incon  = self.indicators[self.indicators['Consistency'] =='inconsistent']
+        if (len(self.ind_con) > 0):
+          self.ind_con = self.ind_con.drop(columns = self.ind_con.columns[(self.ind_con == '-//-').any()])
+        if (len(self.ind_incon) > 0):
+          self.ind_incon = self.ind_incon.drop(columns = self.ind_incon.columns[(self.ind_incon == '-//-').any()])
+        self.indicators = self.indicators.drop(columns = self.indicators.columns[(self.indicators == '-//-').any()])
+        pts             = self.indicators.copy(deep = True)
+        pts['f0(MI)']   = pts['f0(MI)'].astype(float)
+        pts['f1(KT)']   = pts['f1(KT)'].astype(float)
+        pts             = pts.drop_duplicates()
+        pf              = pareto_front_points(pts.iloc[:,:-1].values, pf_min = True)
+        self.front      = pts.iloc[pf, :]
+        return 
 
     ################################################################################
     

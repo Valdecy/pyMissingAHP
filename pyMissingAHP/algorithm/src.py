@@ -248,9 +248,7 @@ class load_ahp():
         rang_elements = []
         bf_solutions  = []
         report_lst    = []
-        cut_off       = 0.1
-        if (consistent_only == False):
-            cut_off = float('+inf')
+        count         = 0
         for pair in self.miss_pos:
             i, j    = pair
             idx_min = self.saaty_scale.index(self.dataset_min[i,j])
@@ -260,8 +258,7 @@ class load_ahp():
         print('Total Number of Combinations: ',   len(combinations))
         print('Total Number of Missing Values: ', len(combinations[0]))
         dataset_   = np.array(self.dataset, copy = True) 
-        rc_bf      = float('+inf')
-        dataset_bf = np.array(self.dataset, copy = True) 
+        rc_bf      = float('+inf') 
         for item in combinations:
             for k in range(0, len(item)):
                 i, j           = self.miss_pos[k]
@@ -275,16 +272,27 @@ class load_ahp():
                 w_, rc_ = ahp_method(dataset_, self.wd)
             else:
                 w_, rc_ = fuzzy_ahp_method(dataset_)
-            if (rc_bf >= rc_):
-                rc_bf      = rc_
-                dataset_bf = np.array(dataset_, copy = True) 
-                if (rc_bf <= cut_off):
+            if (consistent_only == True):
+                if (rc_ <= 0.1):
                     order_    = self.rank_descending(w_)
-                    bf_solutions.append(dataset_bf)
-                    flat_list = [w_.tolist(), order_.tolist(), [rc_bf]]
+                    bf_solutions.append(np.array(dataset_, copy = True))
+                    flat_list = [w_.tolist(), order_.tolist(), [rc_]]
                     flat_list = [item for sublist in flat_list for item in sublist]
                     report_lst.append(flat_list)
-        print('Total Number of Consistent Solutions: ', len(bf_solutions))
+                    count     = count + 1
+                    if (rc_bf > rc_):
+                        rc_bf = rc_
+            elif (consistent_only == False):
+                 order_     = self.rank_descending(w_)
+                 bf_solutions.append(np.array(dataset_, copy = True))
+                 flat_list  = [w_.tolist(), order_.tolist(), [rc_]]
+                 flat_list  = [item for sublist in flat_list for item in sublist]
+                 report_lst.append(flat_list)
+                 if (rc_ <= 0.1):
+                     count = count + 1
+                     if (rc_bf > rc_):
+                         rc_bf = rc_     
+        print('Total Number of Consistent Solutions: ', count)
         print('Minimum RC: ', f'{rc_bf:.4f}')
         col_names = []
         for i in range(0, len(w_)):

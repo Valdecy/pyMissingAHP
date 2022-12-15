@@ -227,7 +227,7 @@ class load_ahp():
         print('')
         while self.alpha <= (1 + step):
             cnt_tot    = cnt_tot + 1
-            print('Iteration ', cnt_tot,' of ',cnt_max,' (alpha: ', f'{abs(self.alpha):.3f}',', 1-alpha: ',f'{abs(1-self.alpha):.3f}',')')
+            print('Iteration ', cnt_tot,' of ',cnt_max,' (alpha: ', f'{abs(self.alpha):.3f}',', 1-alpha: ', f'{abs(1-self.alpha):.3f}',')')
             self.run()
             self.alpha = self.alpha + step
             sol_m.append(self.solution)
@@ -275,7 +275,7 @@ class load_ahp():
                 w_, rc_ = ahp_method(dataset_, self.wd)
             else:
                 w_, rc_ = fuzzy_ahp_method(dataset_)
-            if (rc_bf > rc_ or cut_off == float('+inf')):
+            if (rc_bf >= rc_):
                 rc_bf      = rc_
                 dataset_bf = np.array(dataset_, copy = True) 
                 if (rc_bf <= cut_off):

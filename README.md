@@ -61,3 +61,10 @@ Multiobjective AHP:
 Multiobjective Fuzzy AHP:
 - Example 4a - (Fuzzy AHP; f0 & f1; Discrete): ([ Colab Demo ](https://colab.research.google.com/drive/1_zRxMOmGgoEoiddF94383OHYq_ztF0nT?usp=sharing))
 - Example 4b - (Fuzzy AHP; f0 & f1; Discrete; Custom Fuzzy Scale): ([ Colab Demo ](https://colab.research.google.com/drive/1Jn6KElsYwN6W9IXR4XbBDy2AW6JYoh9t?usp=sharing))
+
+3. Others
+
+- [pyDecision](https://github.com/Valdecy/pyDecision) - A library for many MCDA methods
+- [3MOAHP](https://github.com/Valdecy/Method_3MOAHP) - Inconsistency Reduction Technique for AHP and Fuzzy-AHP Methods
+- [ELECTRE-Tree](https://github.com/Valdecy/ELECTRE-Tree) - Algorithm to infer the ELECTRE Tri-B method parameters
+- [Ranking-Trees](https://github.com/Valdecy/Ranking-Trees) - Algorithm to infer the ELECTRE II, III, IV and PROMETHEE I, II, III, IV method parameters

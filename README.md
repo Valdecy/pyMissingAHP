@@ -3,7 +3,7 @@
 ## Introduction
 The multi-criteria technique Analytic Hierarchy Process (AHP) needs a complete Pairwise Comparison Matrix (PCM) to generate results. With an incomplete PCM, our algorithm can infer the best (continuous or discrete) values to complete the missing data. The values can be calculated based on the minimum inconsistency (f0), target rank preservation (f1), or both (f0_f1). The target rank preservation can be total (when all criteria are ranked) or partial (when only a set of criteria are ranked). We also allow ties in ranks (criteria with the same rank). For small problems with discrete scale, we offer a brute force method that can find all available solutions.
 
-It's worth noting that our implementation can deal with AHP and Fuzzy AHP. The Fuzzy AHP needs a fuzzy triangular scale to work, and although the user can define his scale, we have implemented a default fuzzy triangular scale that can be used in most problems:
+It's worth noting that our implementation can deal with AHP and Fuzzy AHP. The Fuzzy AHP needs a fuzzy triangular scale to work, and although the user can define his scale, we have implemented a default fuzzy triangular scale that can be used in most problems: 
 
 
 | Crisp Number |   Fuzzy Number  | 

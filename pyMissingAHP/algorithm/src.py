@@ -543,7 +543,7 @@ class load_ahp():
                 else:
                     w2.append(w1[i])
             else:
-                w2.append(w1[i])
+                w2.append(len(self.order))
         w2             = np.array(w2)
         kendall_tau, _ = stats.kendalltau(w1, w2)
         if (math.isnan(kendall_tau)):
@@ -572,7 +572,7 @@ class load_ahp():
 
     # Function: MultiObjective Function - Consistency Ratio (MI) & Kendall Tau (KT)
     def f0_f1(self, variables):
-        result = self.alpha*self.f0(variables)/1 + (1 - self.alpha)*self.f1(variables)/10
+        result = self.alpha*self.f0(variables)/1 + (1 - self.alpha)*self.f1(variables)/1
         return result
         
     ################################################################################
@@ -594,7 +594,7 @@ class load_ahp():
 
     ################################################################################
 
-    # Function: Get Solutions
+    # Function: Get Solution
     def get_solution(self):
         self.indicators = []
         self.solutions  = []

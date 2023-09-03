@@ -26,6 +26,8 @@ It's worth noting that our implementation can deal with AHP and Fuzzy AHP. The F
 |       8      | (  7,   8,   9) |
 |       9      | (  9,   9,   9) |
 
+## Citation
+HEYMANN, M.C., PEREIRA, V. & CAIADO, R.G.G. (2023). PyMissingAHP: An Evolutionary Algorithm for Filling Missing Values in Incomplete Pairwise Comparisons Matrices with Real or Fuzzy Numbers via Mono and Multiobjective Approaches. Arabian Journal for Science and Engineering. DOI: https://doi.org/10.1007/s13369-023-08227-4
 
 ## Usage
 1. Install
